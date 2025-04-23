@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ashley Template Fix Instructions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            max-width: 800px;
+            padding: 20px;
+        }
+        .solution {
+            background-color: #f0f0f0;
+            border-left: 4px solid #4CAF50;
+            padding: 10px 20px;
+            margin: 20px 0;
+        }
+        code {
+            background-color: #eeeeee;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        pre {
+            background-color: #eeeeee;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        h2 {
+            color: #333;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Fix for Ashley HTML Template JavaScript Errors</h1>
+    
+    <h2>Issues Identified:</h2>
+    <ul>
+        <li><code>ReferenceError: jQuery is not defined</code></li>
+        <li><code>TypeError: $(...).fancybox is not a function</code></li>
+    </ul>
+    
+    <h2>Problem Analysis:</h2>
+    <p>These errors happen when:</p>
+    <ol>
+        <li>jQuery is not properly loaded before other scripts that depend on it</li>
+        <li>The fancybox plugin is not loaded or is loaded before jQuery</li>
+        <li>There could be a conflict with other JavaScript libraries</li>
+    </ol>
+    
+    <h2>How to Fix the Issues:</h2>
+    
+    <div class="solution">
+        <h3>Solution 1: Check how you're accessing the HTML files</h3>
+        <p>Are you opening the HTML files directly from your file system? If so, try:</p>
+        <ul>
+            <li>Using a local web server (like Live Server in VS Code)</li>
+            <li>Make sure you're opening <code>index.html</code> directly, not the parent folder</li>
+        </ul>
+    </div>
+    
+    <div class="solution">
+        <h3>Solution 2: Fix Script Loading Order</h3>
+        <p>Make sure scripts are loaded in the correct order. Edit each HTML file in the template to ensure jQuery is loaded first:</p>
+        <pre>
+&lt;!-- This order is important -->
+&lt;script src="js/plugins/jquery.min.js">&lt;/script>
+&lt;script src="js/plugins/fancybox.min.js">&lt;/script>
+&lt;!-- Other plugins -->
+&lt;script src="js/main.js">&lt;/script>
+        </pre>
+    </div>
+    
+    <div class="solution">
+        <h3>Solution 3: Add Async Initialization</h3>
+        <p>Edit <code>ashley/js/main.js</code> to ensure jQuery is fully loaded before fancybox is used:</p>
+        <pre>
+// Add this at the beginning of main.js
+document.addEventListener("DOMContentLoaded", function() {
+    // Make sure jQuery is available
+    if (typeof jQuery === 'undefined') {
+        console.error('jQuery is not loaded!');
+        return;
+    }
+    
+    // Initialize fancybox
+    if ($.fancybox) {
+        $('[data-fancybox="gallery"]').fancybox({
+            buttons: [
+                "slideShow",
+                "zoom",
+                "fullScreen",
+                "close"
+            ],
+            loop: false,
+            protect: true
+        });
+    }
+});
+        </pre>
+    </div>
+    
+    <div class="solution">
+        <h3>Solution 4: Fix Potential CDN Issues</h3>
+        <p>If the template is using CDN links that might be blocked or unavailable, replace them with local copies:</p>
+        <pre>
+&lt;!-- Replace any CDN links with local copies -->
+&lt;!-- For example: -->
+&lt;!-- Instead of this: -->
+&lt;script src="https://cdn.example.com/jquery.min.js">&lt;/script>
+&lt;!-- Use this: -->
+&lt;script src="js/plugins/jquery.min.js">&lt;/script>
+        </pre>
+    </div>
+    
+    <h2>Testing Your Fix:</h2>
+    <p>After applying any of these solutions:</p>
+    <ol>
+        <li>Clear your browser cache (Ctrl+F5 or Cmd+Shift+R)</li>
+        <li>Open the browser's developer console (F12 or Cmd+Option+I)</li>
+        <li>Refresh the page and check if the errors are gone</li>
+    </ol>
+    
+    <p>If you've applied the fixes and still have issues, you may need to check for additional JavaScript errors in the console that could give more clues.</p>
+</body>
+</html> 

@@ -1,0 +1,89 @@
+// Wait for the DOM to be fully loaded
+document.addEventListener("DOMContentLoaded", function() {
+    // Check if jQuery is available
+    if (typeof jQuery === 'undefined') {
+        console.error('jQuery is not loaded! Please make sure jquery.min.js is included before other scripts.');
+        return;
+    }
+
+    // Now we can safely use jQuery
+    $(function() {
+        // Original main.js code starts here
+        
+        /***************************
+        preloader
+        ***************************/
+        var preloader = $('.mil-preloader');
+        preloader.fadeOut(500);
+
+        /***************************
+        anchor scroll
+        ***************************/
+        $('a[href^="#"]').on('click', function(event) {
+            var target = $(this.getAttribute('href'));
+
+            if (target.length) {
+                event.preventDefault();
+
+                $('html, body').stop().animate({
+                    scrollTop: target.offset().top - 100
+                }, 500);
+            }
+        });
+
+        /***************************
+        back to top
+        ***************************/
+        var backToTop = $('.mil-back-to-top');
+
+        if (backToTop.length) {
+            var scrollTrigger = 100,
+                backToTopFunction = function() {
+                    var scrollTop = $(window).scrollTop();
+                    if (scrollTop > scrollTrigger) {
+                        backToTop.addClass('active');
+                    } else {
+                        backToTop.removeClass('active');
+                    }
+                };
+
+            backToTopFunction();
+
+            $(window).on('scroll', function() {
+                backToTopFunction();
+            });
+
+            backToTop.on('click', function(e) {
+                e.preventDefault();
+                $('html,body').animate({
+                    scrollTop: 0
+                }, 500);
+            });
+        }
+
+        // Continue with the rest of your main.js code...
+        
+        /***************************
+        fancybox
+        ***************************/
+        // Check if fancybox is available before using it
+        if ($.fancybox) {
+            $('[data-fancybox="gallery"]').fancybox({
+                buttons: [
+                    "slideShow",
+                    "zoom",
+                    "fullScreen",
+                    "close"
+                ],
+                loop: false,
+                protect: true
+            });
+            $.fancybox.defaults.hash = false;
+        } else {
+            console.error('Fancybox is not loaded! Please make sure fancybox.min.js is included after jQuery.');
+        }
+        
+        // Rest of your main.js code continues...
+        
+    });
+}); 

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fix Template</title>
+    
+    <!-- fancybox css -->
+    <link rel="stylesheet" href="ashley/css/plugins/fancybox.min.css">
+</head>
+<body>
+    <h1>Testing jQuery and Fancybox</h1>
+    
+    <div>
+        <a href="ashley/img/content/1.jpg" data-fancybox="gallery">
+            <img src="ashley/img/content/1.jpg" alt="Test Image" style="max-width: 300px;">
+        </a>
+    </div>
+    
+    <!-- Load scripts in correct order -->
+    <script src="ashley/js/plugins/jquery.min.js"></script>
+    <script src="ashley/js/plugins/fancybox.min.js"></script>
+    
+    <script>
+        // Initialize fancybox after everything is loaded
+        $(document).ready(function() {
+            // Check if jQuery is loaded
+            if (typeof jQuery !== 'undefined') {
+                console.log("jQuery is defined and loaded properly");
+            } else {
+                console.log("jQuery is not defined!");
+            }
+            
+            // Check if fancybox is available on jQuery
+            if ($.fancybox) {
+                console.log("Fancybox is loaded properly");
+                
+                // Initialize fancybox
+                $('[data-fancybox="gallery"]').fancybox({
+                    buttons: [
+                        "slideShow",
+                        "zoom",
+                        "fullScreen",
+                        "close"
+                    ],
+                    loop: false,
+                    protect: true
+                });
+            } else {
+                console.log("Fancybox is not loaded!");
+            }
+        });
+    </script>
+</body>
+</html> 
